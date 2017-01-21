@@ -12,7 +12,9 @@ public class Jugador {
     private String posicion;
     private Team equipo;
 
-    public Jugador() {
+    public Jugador() {}
+
+    public Jugador(Jugador jugador) {
     }
 
     public Jugador(String nombre, LocalDate fechan, int canasto, int asisto, int reboto, String posicion, Team equipo) {

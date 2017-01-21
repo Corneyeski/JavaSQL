@@ -9,14 +9,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import model.AgruparDTO;
+
+import DTO.RankingDTO;
+import DTO.AgruparDTO;
 import model.Jugador;
 import model.Team;
 
-public class basketbbdd {
+public class Basketbbdd {
 
     private Connection conexion;
+
+    public Basketbbdd() {}
 
     public void insertarEquipo(Team t) throws SQLException {
 
@@ -91,27 +96,8 @@ public class basketbbdd {
 
         ResultSet ps = consulta.executeQuery(obtener);
 
-        Jugador p = new Jugador();
-        p.setNombre(ps.getString("nombre"));
-        p.setFechan(ps.getDate("fechan").toLocalDate());
-        p.setCanasto(ps.getInt("canasto"));
-        p.setAsisto(ps.getInt("asisto"));
-        p.setReboto(ps.getInt("reboto"));
-        p.setPosicion(ps.getString("posicion"));
-        String equipo = (ps.getString("equipo"));
 
-        String obtenerT = "select * from team where nombre = " + equipo;
-        Statement consulta2 = conexion.createStatement();
-
-        ResultSet pst = consulta.executeQuery(obtenerT);
-        Team t = new Team();
-
-        t.setNombre(pst.getString("nombre"));
-        t.setLocalidad(pst.getString("localidad"));
-        t.setFechac(pst.getDate("fechac").toLocalDate());
-
-        p.setEquipo(t);
-        return p;
+        return createJugador(ps);
     }
 
     public List<Jugador> listJugadores(String nombre) throws SQLException {
@@ -124,27 +110,8 @@ public class basketbbdd {
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()) {
-            Jugador p = new Jugador();
-            p.setNombre(ps.getString("nombre"));
-            p.setFechan(ps.getDate("fechan").toLocalDate());
-            p.setCanasto(ps.getInt("canasto"));
-            p.setAsisto(ps.getInt("asisto"));
-            p.setReboto(ps.getInt("reboto"));
-            p.setPosicion(ps.getString("posicion"));
-            String equipo = (ps.getString("equipo"));
 
-            String obtenerT = "select team where nombre = " + equipo;
-            Statement consulta2 = conexion.createStatement();
-
-            ResultSet pst = consulta.executeQuery(obtenerT);
-            Team t = new Team();
-
-            t.setNombre(pst.getString("nombre"));
-            t.setLocalidad(pst.getString("localidad"));
-            t.setFechac(pst.getDate("fechac").toLocalDate());
-
-            p.setEquipo(t);
-            lista.add(p);
+            lista.add(createJugador(ps));
         }
 
         return lista;
@@ -160,27 +127,8 @@ public class basketbbdd {
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()) {
-            Jugador p = new Jugador();
-            p.setNombre(ps.getString("nombre"));
-            p.setFechan(ps.getDate("fechan").toLocalDate());
-            p.setCanasto(ps.getInt("canasto"));
-            p.setAsisto(ps.getInt("asisto"));
-            p.setReboto(ps.getInt("reboto"));
-            p.setPosicion(ps.getString("posicion"));
-            String equipo = (ps.getString("equipo"));
 
-            String obtenerT = "select * from team where nombre = " + equipo;
-            Statement consulta2 = conexion.createStatement();
-
-            ResultSet pst = consulta.executeQuery(obtenerT);
-            Team t = new Team();
-
-            t.setNombre(pst.getString("nombre"));
-            t.setLocalidad(pst.getString("localidad"));
-            t.setFechac(pst.getDate("fechac").toLocalDate());
-
-            p.setEquipo(t);
-            lista.add(p);
+            lista.add(createJugador(ps));
         }
 
         return lista;
@@ -197,27 +145,8 @@ public class basketbbdd {
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()) {
-            Jugador p = new Jugador();
-            p.setNombre(ps.getString("nombre"));
-            p.setFechan(ps.getDate("fechan").toLocalDate());
-            p.setCanasto(ps.getInt("canasto"));
-            p.setAsisto(ps.getInt("asisto"));
-            p.setReboto(ps.getInt("reboto"));
-            p.setPosicion(ps.getString("posicion"));
-            String equipo = (ps.getString("equipo"));
 
-            String obtenerT = "select team where nombre = " + equipo;
-            Statement consulta2 = conexion.createStatement();
-
-            ResultSet pst = consulta.executeQuery(obtenerT);
-            Team t = new Team();
-
-            t.setNombre(pst.getString("nombre"));
-            t.setLocalidad(pst.getString("localidad"));
-            t.setFechac(pst.getDate("fechac").toLocalDate());
-
-            p.setEquipo(t);
-            lista.add(p);
+            lista.add(createJugador(ps));
         }
 
         return lista;
@@ -233,27 +162,8 @@ public class basketbbdd {
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()) {
-            Jugador p = new Jugador();
-            p.setNombre(ps.getString("nombre"));
-            p.setFechan(ps.getDate("fechan").toLocalDate());
-            p.setCanasto(ps.getInt("canasto"));
-            p.setAsisto(ps.getInt("asisto"));
-            p.setReboto(ps.getInt("reboto"));
-            p.setPosicion(ps.getString("posicion"));
-            String equipo = (ps.getString("equipo"));
 
-            String obtenerT = "select team where nombre = " + equipo;
-            Statement consulta2 = conexion.createStatement();
-
-            ResultSet pst = consulta.executeQuery(obtenerT);
-            Team t = new Team();
-
-            t.setNombre(pst.getString("nombre"));
-            t.setLocalidad(pst.getString("localidad"));
-            t.setFechac(pst.getDate("fechac").toLocalDate());
-
-            p.setEquipo(t);
-            lista.add(p);
+            lista.add(createJugador(ps));
         }
 
         return lista;
@@ -270,27 +180,8 @@ public class basketbbdd {
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()) {
-            Jugador p = new Jugador();
-            p.setNombre(ps.getString("nombre"));
-            p.setFechan(ps.getDate("fechan").toLocalDate());
-            p.setCanasto(ps.getInt("canasto"));
-            p.setAsisto(ps.getInt("asisto"));
-            p.setReboto(ps.getInt("reboto"));
-            p.setPosicion(ps.getString("posicion"));
-            String equipo = (ps.getString("equipo"));
 
-            String obtenerT = "select team where nombre = " + equipo;
-            Statement consulta2 = conexion.createStatement();
-
-            ResultSet pst = consulta.executeQuery(obtenerT);
-            Team t = new Team();
-
-            t.setNombre(pst.getString("nombre"));
-            t.setLocalidad(pst.getString("localidad"));
-            t.setFechac(pst.getDate("fechac").toLocalDate());
-
-            p.setEquipo(t);
-            lista.add(p);
+            lista.add(createJugador(ps));
         }
 
         return lista;
@@ -335,8 +226,86 @@ public class basketbbdd {
         return lista;
     }
 
-    public basketbbdd() throws SQLException {
-        String url = "jdbc::mysql://localhost:3306/restaurant";
+    public List<RankingDTO> rankin() throws SQLException{
+
+        List<RankingDTO> ranking = new ArrayList<>();
+
+        String obtener = "select nombre,canasto from jugador";
+        Statement consulta = conexion.createStatement();
+
+        ResultSet ps = consulta.executeQuery(obtener);
+
+        while(ps.next()){
+            ranking.add(new RankingDTO(ps.getString("nombre"),ps.getInt("canasto")));
+        }
+
+        ranking.sort(Comparator.comparing(RankingDTO::getPuntos));
+
+        return ranking;
+    }
+
+    public List<Team> localidadTeams(String localidad) throws SQLException{
+
+        List<Team> teams = new ArrayList<>();
+
+        String obtener = "select * from team WHERE localidad ="+localidad;
+        Statement consulta = conexion.createStatement();
+
+        ResultSet ps = consulta.executeQuery(obtener);
+
+        while(ps.next()){
+            teams.add(new Team(ps.getString("nombre"),ps.getString("localidad"),ps.getDate("fechac").toLocalDate()));
+        }
+
+        return teams;
+    }
+
+    public List<String> jugadoresEquipo(String equipo) throws SQLException{
+
+        List<String> jugadores = new ArrayList<>();
+
+        String obtener = "select nombre from jugador WHERE equipo ="+equipo;
+        Statement consulta = conexion.createStatement();
+
+        ResultSet ps = consulta.executeQuery(obtener);
+
+        while (ps.next()){
+            jugadores.add(ps.getString("nombre"));
+        }
+
+        return jugadores;
+    }
+
+    public List<Jugador> jugadoresEquipoPosicion(String nequipo, String posicion) throws SQLException{
+
+        List<Jugador> jugadores = new ArrayList<>();
+
+        String obtener = "select nombre from jugador WHERE equipo ="+nequipo+" and posicion ="+posicion;
+        Statement consulta = conexion.createStatement();
+
+        ResultSet ps = consulta.executeQuery(obtener);
+
+        while (ps.next()){
+
+            jugadores.add(createJugador(ps));
+        }
+        return jugadores;
+    }
+
+    //TODO Arreglar esto
+    public Jugador maxEquipo(String nequipo) throws SQLException{
+
+        String obtener = "select nombre from jugador WHERE equipo ="+nequipo+" and MAX(canasto)";
+        Statement consulta = conexion.createStatement();
+
+        ResultSet ps = consulta.executeQuery(obtener);
+
+        return new Jugador(createJugador(ps));
+
+    }
+
+    public void conectar() throws SQLException {
+        String url = "jdbc::mysql://localhost:3306/basket";
         String usr = "root";
         String pass = "";
         conexion = DriverManager.getConnection(url, usr, pass);
@@ -346,5 +315,31 @@ public class basketbbdd {
         if (conexion != null) {
             conexion.close();
         }
+    }
+
+    private Jugador createJugador(ResultSet ps) throws SQLException{
+
+        Jugador p = new Jugador();
+        p.setNombre(ps.getString("nombre"));
+        p.setFechan(ps.getDate("fechan").toLocalDate());
+        p.setCanasto(ps.getInt("canasto"));
+        p.setAsisto(ps.getInt("asisto"));
+        p.setReboto(ps.getInt("reboto"));
+        p.setPosicion(ps.getString("posicion"));
+        String equipo = (ps.getString("equipo"));
+
+        String obtenerT = "select * from team where nombre = " + equipo;
+        Statement consulta2 = conexion.createStatement();
+
+        ResultSet pst = consulta2.executeQuery(obtenerT);
+        Team t = new Team();
+
+        t.setNombre(pst.getString("nombre"));
+        t.setLocalidad(pst.getString("localidad"));
+        t.setFechac(pst.getDate("fechac").toLocalDate());
+
+        p.setEquipo(t);
+
+        return p;
     }
 }

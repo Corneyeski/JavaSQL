@@ -1,5 +1,5 @@
 
-package model;
+package DTO;
 public class AgruparDTO {
 
     private String posicion;
@@ -109,4 +109,19 @@ public class AgruparDTO {
         this.maximor = maximor;
     }
 
+    @Override
+    public String toString() {
+        return "AgruparDTO{" +
+                "posicion='" + posicion + '\'' +
+                ", mediac=" + mediac +
+                ", minimoc=" + minimoc +
+                ", maximoc=" + maximoc +
+                ", mediaa=" + mediaa +
+                ", minimoa=" + minimoa +
+                ", maximoa=" + maximoa +
+                ", mediar=" + mediar +
+                ", minimor=" + minimor +
+                ", maximor=" + maximor +
+                '}';
+    }
 }
