@@ -24,25 +24,29 @@ public class main {
 
             /************************************************AÑADIENDO JUGADORES Y EQUIPOS DE PRUEBA A LA BBDD************************************************/
 
-            Team pruebae = new Team("equipo","barcelona",LocalDate.parse("10/12/1890"));
+            Team pruebae = new Team("equipo","barcelona",LocalDate.of(2000,10,10));
             gestor.insertarEquipo(pruebae);
-            Jugador pruebaj = new Jugador("jugador",LocalDate.parse("10/12/1996"),70,256,31,"alero",pruebae);
+            Jugador pruebaj = new Jugador("jugador",LocalDate.of(1992,3,17),70,256,31,"alero",pruebae);
             gestor.insertarJugador(pruebaj);
 
             /*************************************************************************************************************************************************/
 
-            Team e = new Team("stucom","barcelona",LocalDate.parse("10/12/1990"));
+            Team e = new Team("stucom","barcelona",LocalDate.of(1966,03,27));
             gestor.insertarEquipo(e);
             System.out.println("Equipo insertado");
 
-            Jugador j = new Jugador("alan",LocalDate.parse("10/12/1996"),10,20,30,"alero",e);
+            Jugador j = new Jugador("alan",LocalDate.of(1900,11,07),10,20,30,"alero",e);
             gestor.insertarJugador(j);
             System.out.println("Jugador insertado");
+
+            System.out.println("error?");
 
             gestor.modificarCRA("alan",60,50,70);
             System.out.println("modificado CRA a " + j.getNombre());
 
-            Team e2 = new Team("barça","barcelona",LocalDate.parse("10/12/1980"));
+            System.out.println("error2?");
+
+            Team e2 = new Team("barça","barcelona",LocalDate.of(1900,12,7));
             gestor.modificarJugadorT("alan",e2);
             System.out.println("Modificando equipo de "+j.getNombre());
 
@@ -58,6 +62,8 @@ public class main {
             for(Jugador jugador : listJugadores){
                 System.out.println(jugador);
             }
+
+            System.out.println("error3?");
 
             List<Jugador> listJugadoresC = gestor.listJugadoresC(10);
             System.out.println("obteniendo concidencias por canastas");
@@ -80,7 +86,7 @@ public class main {
                 System.out.println(jugador);
             }
 
-            List<Jugador> jugadoresAnteriores = gestor.jugadoresAnteriores(LocalDate.parse("10/10/2000"));
+            List<Jugador> jugadoresAnteriores = gestor.jugadoresAnteriores(LocalDate.of(1900,11,07));
             System.out.println("obteniendo concidencias por nacimiento");
 
             for(Jugador jugador : jugadoresAnteriores){
@@ -133,6 +139,9 @@ public class main {
             for(Jugador jugador : jugadoresEquipoPosicion){
                 System.out.println(jugador);
             }
+
+            System.out.println(gestor.maxEquipo("stucom"));
+            System.out.println("jugador top del equipo stucom");
 
             gestor.desconectar();
             System.out.println("Cerrando conexion");

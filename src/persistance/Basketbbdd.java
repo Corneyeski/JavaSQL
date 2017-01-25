@@ -25,7 +25,7 @@ public class Basketbbdd {
 
     public void insertarEquipo(Team t) throws SQLException {
 
-        String insert = "insert into cocinero values (?,?,?);";
+        String insert = "insert into team values (?,?,?);";
         PreparedStatement ps = conexion.prepareStatement(insert);
 
         ps.setString(1, t.getNombre());
@@ -39,7 +39,7 @@ public class Basketbbdd {
 
     public void insertarJugador(Jugador j) throws SQLException {
 
-        String insert = "insert into cocinero values (?,?,?,?,?,?,?);";
+        String insert = "insert into jugador values (?,?,?,?,?,?,?);";
         PreparedStatement ps = conexion.prepareStatement(insert);
 
         ps.setString(1, j.getNombre());
@@ -57,7 +57,7 @@ public class Basketbbdd {
 
     public void modificarCRA(String nombre, int i, int j, int k) throws SQLException {
 
-        String update = "update into Jugador SET canasto = ?, asisto = ?, reboto = ? where nombre=?";
+        String update = "update Jugador SET canasto = ?, asisto = ?, reboto = ? where nombre = ?";
         PreparedStatement ps = conexion.prepareStatement(update);
 
         ps.setInt(1, i);
@@ -73,7 +73,7 @@ public class Basketbbdd {
 
     public void modificarJugadorT(String nombre, Team equipo) throws SQLException {
 
-        String update = "update into Jugador SET equipo=? where nombre=?";
+        String update = "update Jugador SET equipo=? where nombre=?";
         PreparedStatement ps = conexion.prepareStatement(update);
 
         ps.setString(1, equipo.getNombre());
@@ -81,7 +81,7 @@ public class Basketbbdd {
     }
 
     public void deletePlayer(String nombre) throws SQLException {
-        String update = "delete * from jugador where nombre = ?";
+        String update = "delete from jugador where nombre = ?";
         PreparedStatement ps = conexion.prepareStatement(update);
         ps.setString(1, nombre);
 
@@ -91,18 +91,25 @@ public class Basketbbdd {
     }
 
     public Jugador devolverJugador(String nombre) throws SQLException {
-        String obtener = "select * from jugador where nombre =" + nombre;
+
+        Jugador errorj = new Jugador();
+
+        String obtener = "select * from jugador where nombre ='" + nombre+"'";
         Statement consulta = conexion.createStatement();
 
         ResultSet ps = consulta.executeQuery(obtener);
 
-
-        return createJugador(ps);
+        while(ps.next()) {
+            return createJugador(ps);
+        }
+        return errorj;
     }
 
     public List<Jugador> listJugadores(String nombre) throws SQLException {
 
         List<Jugador> lista = new ArrayList<>();
+
+        //TODO añadir interrogante
 
         String obtener = "select * from jugador where nombre like '%" + nombre + "%'";
         Statement consulta = conexion.createStatement();
@@ -156,7 +163,7 @@ public class Basketbbdd {
 
         List<Jugador> lista = new ArrayList<>();
 
-        String obtener = "select * from jugador where posicion ="+pos;
+        String obtener = "select * from jugador where posicion ='"+pos+"'";
         Statement consulta = conexion.createStatement();
 
         ResultSet ps = consulta.executeQuery(obtener);
@@ -195,11 +202,11 @@ public class Basketbbdd {
                 + "AVG(canasto),"
                 + "AVG(asisto),"
                 + "AVG(reboto),"
-                + "MAX(canasto)"
-                + "MAX(asisto)"
-                + "MAX(reboto)"
-                + "MIN(canasto)"
-                + "MIN(asisto)"
+                + "MAX(canasto),"
+                + "MAX(asisto),"
+                + "MAX(reboto),"
+                + "MIN(canasto),"
+                + "MIN(asisto),"
                 + "MIN(reboto)"
                 + " from jugador group by posicion";
         Statement consulta = conexion.createStatement();
@@ -248,7 +255,7 @@ public class Basketbbdd {
 
         List<Team> teams = new ArrayList<>();
 
-        String obtener = "select * from team WHERE localidad ="+localidad;
+        String obtener = "select * from team WHERE localidad ='"+localidad+"'";
         Statement consulta = conexion.createStatement();
 
         ResultSet ps = consulta.executeQuery(obtener);
@@ -264,7 +271,7 @@ public class Basketbbdd {
 
         List<String> jugadores = new ArrayList<>();
 
-        String obtener = "select nombre from jugador WHERE equipo ="+equipo;
+        String obtener = "select nombre from jugador WHERE team ='"+equipo+"'";
         Statement consulta = conexion.createStatement();
 
         ResultSet ps = consulta.executeQuery(obtener);
@@ -280,13 +287,13 @@ public class Basketbbdd {
 
         List<Jugador> jugadores = new ArrayList<>();
 
-        String obtener = "select nombre from jugador WHERE equipo ="+nequipo+" and posicion ="+posicion;
+        String obtener = "select * from jugador WHERE team ='"+nequipo+"' and posicion ='"+posicion+"'";
         Statement consulta = conexion.createStatement();
 
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()){
-
+            System.out.println("error4?");
             jugadores.add(createJugador(ps));
         }
         return jugadores;
@@ -295,17 +302,19 @@ public class Basketbbdd {
     //TODO Arreglar esto
     public Jugador maxEquipo(String nequipo) throws SQLException{
 
-        String obtener = "select nombre from jugador WHERE equipo ="+nequipo+" and MAX(canasto)";
+        Jugador errorj = new Jugador();
+        String obtener = "select MAX(canasto) from jugador WHERE team ='"+nequipo+"' ";
         Statement consulta = conexion.createStatement();
-
+        System.out.println("eco");
         ResultSet ps = consulta.executeQuery(obtener);
-
+    if (ps.next()) {
         return new Jugador(createJugador(ps));
-
+    }
+        return errorj;
     }
 
     public void conectar() throws SQLException {
-        String url = "jdbc::mysql://localhost:3306/basket";
+        String url = "jdbc:mysql://localhost:3306/basket";
         String usr = "root";
         String pass = "";
         conexion = DriverManager.getConnection(url, usr, pass);
@@ -321,25 +330,28 @@ public class Basketbbdd {
 
         Jugador p = new Jugador();
         p.setNombre(ps.getString("nombre"));
+        System.out.println("llego");
         p.setFechan(ps.getDate("fechan").toLocalDate());
+        System.out.println("llego");
         p.setCanasto(ps.getInt("canasto"));
         p.setAsisto(ps.getInt("asisto"));
         p.setReboto(ps.getInt("reboto"));
         p.setPosicion(ps.getString("posicion"));
-        String equipo = (ps.getString("equipo"));
+        String equipo = (ps.getString("team"));
 
-        String obtenerT = "select * from team where nombre = " + equipo;
+        String obtenerT = "select * from team where nombre = '"+equipo+"'";
         Statement consulta2 = conexion.createStatement();
 
         ResultSet pst = consulta2.executeQuery(obtenerT);
         Team t = new Team();
 
-        t.setNombre(pst.getString("nombre"));
-        t.setLocalidad(pst.getString("localidad"));
-        t.setFechac(pst.getDate("fechac").toLocalDate());
+        while(pst.next()) {
+            t.setNombre(pst.getString("nombre"));
+            t.setLocalidad(pst.getString("localidad"));
+            t.setFechac(pst.getDate("fechac").toLocalDate());
 
-        p.setEquipo(t);
-
+            p.setEquipo(t);
+        }
         return p;
     }
 }

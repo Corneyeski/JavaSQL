@@ -34,6 +34,6 @@ public class RankingDTO {
 
     @Override
     public String toString() {
-        return "RankingDTO{" + nombre + " " + puntos + '}';
+        return nombre + " " + puntos;
     }
 }
