@@ -39,12 +39,8 @@ public class main {
             gestor.insertarJugador(j);
             System.out.println("Jugador insertado");
 
-            System.out.println("error?");
-
             gestor.modificarCRA("alan",60,50,70);
             System.out.println("modificado CRA a " + j.getNombre());
-
-            System.out.println("error2?");
 
             Team e2 = new Team("barça","barcelona",LocalDate.of(1900,12,7));
             gestor.modificarJugadorT("alan",e2);
@@ -62,8 +58,6 @@ public class main {
             for(Jugador jugador : listJugadores){
                 System.out.println(jugador);
             }
-
-            System.out.println("error3?");
 
             List<Jugador> listJugadoresC = gestor.listJugadoresC(10);
             System.out.println("obteniendo concidencias por canastas");

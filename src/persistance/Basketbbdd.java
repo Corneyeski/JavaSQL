@@ -293,23 +293,29 @@ public class Basketbbdd {
         ResultSet ps = consulta.executeQuery(obtener);
 
         while (ps.next()){
-            System.out.println("error4?");
             jugadores.add(createJugador(ps));
         }
         return jugadores;
     }
 
     //TODO Arreglar esto
-    public Jugador maxEquipo(String nequipo) throws SQLException{
+    public Jugador maxEquipo(String nequipo) throws SQLException {
 
-        Jugador errorj = new Jugador();
-        String obtener = "select MAX(canasto) from jugador WHERE team ='"+nequipo+"' ";
+        Team team = new Team();
+
+        Jugador errorj = new Jugador("nada", LocalDate.of(1900, 11, 07), 5, 5, 5, "nada", team);
+
+        String obtener = "select * from jugador WHERE canasto = (SELECT  MAX(canasto) from jugador WHERE team ='" + nequipo + "')";
+        //select * from player where nbkaskets = (select max(nbaskets) from player where team=))
         Statement consulta = conexion.createStatement();
-        System.out.println("eco");
         ResultSet ps = consulta.executeQuery(obtener);
-    if (ps.next()) {
-        return new Jugador(createJugador(ps));
-    }
+
+        if (ps.next()) {
+            System.out.println(ps.getString("nombre"));
+        }
+        if (ps.next()) {
+            return createJugador(ps);
+        }
         return errorj;
     }
 
@@ -330,9 +336,7 @@ public class Basketbbdd {
 
         Jugador p = new Jugador();
         p.setNombre(ps.getString("nombre"));
-        System.out.println("llego");
         p.setFechan(ps.getDate("fechan").toLocalDate());
-        System.out.println("llego");
         p.setCanasto(ps.getInt("canasto"));
         p.setAsisto(ps.getInt("asisto"));
         p.setReboto(ps.getInt("reboto"));
